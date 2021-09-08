@@ -1,0 +1,1 @@
+mongoimport -d World -c postal --type csv --file DE.csv --columnsHaveTypes --fields "country_code.string(),postal_code.string(),place_name.string(),admin_name1.string(),admin_code1.string(),admin_name2.string(),admin_code2.string(),admin_name3.string(),admin_code3.string(),latitude.auto(),longitude.auto(),accuracy.string()"

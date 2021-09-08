@@ -1,0 +1,315 @@
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+
+		<title>My DatingApp</title>
+
+		<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+
+		<script src="js/config.js"></script>
+		<script src="js/httprequest.js"></script>
+		<script src="js/loginpage.js"></script>
+		<script src="js/registerpage.js"></script>
+		<script src="js/mainpage.js"></script>
+		<script src="js/orte.js"></script>
+		<script src="js/wichtungtable/wichtungtableeditor.js"></script>
+		<script src="js/wichtungtable/wichtungtable.js"></script>
+		<script src="js/profile/profilepagetabs.js"></script>
+		<script src="js/profile/ownprofilepage.js"></script>
+		<script src="js/profile/otherprofilepage.js"></script>
+		<script src="js/profile/chatpage.js"></script>
+		<script src="js/profile/arrayBufferToBase64.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="index.css"/>
+	</head>
+
+	<body>
+		<div id="container">
+			<div id="header">
+
+				<div id="header-profile">
+					<div id="header-profile-inner">
+						<img src="assets/DatingApp.svg"/>
+						<h1>DatingApp</h1>
+					</div>
+				</div>
+
+			</div>
+
+			<div id="workspace">
+				<div id="login">
+					<div class="centered">
+						<b id="login-status">Bitte geben Sie Nutzernamen und Passwort ein!</b>
+
+						<table>
+
+							<tr>
+								<td align="right">Nutzername</td>
+								<td><input id="login-nutzername" value="nutzername"></td>
+							</tr>
+
+							<tr>
+								<td align="right">Passwort</td>
+								<td><input type="password" id="login-passwort" value="pass"></td>
+							</tr>
+
+							<tr>
+								<td align="right"></td>
+								<td><button onclick="login();">Anmelden</button></td>
+							</tr>
+
+							<tr>
+								<td align="right">Sie haben noch keinen Account?</td>
+								<td><button onclick="setUpRegisterPage();">Jetzt registrieren</button></td>
+							</tr>
+
+						</table>
+					</div>
+				</div>
+
+				<div id="register">
+					<div class="centered">
+						<b id="register-status">Füllen Sie die Felder aus</b>
+
+						<table>
+
+							<tr>
+								<td align="right">Nutzername</td>
+								<td><input id="register-nutzername" value="nutzername"></td>
+							</tr>
+
+							<tr>
+								<td align="right">Passwort</td>
+								<td><input type="password" id="register-passwort" value="pass"></td>
+							</tr>
+
+							<tr>
+								<td align="right">Passwort wiederholen</td>
+								<td><input type="password" id="register-repeatpasswort" value="pass"></td>
+							</tr>
+
+							<tr>
+								<td align="right">Vorname</td>
+								<td><input id="register-vorname" value="Vorname"></td>
+							</tr>
+
+							<tr>
+								<td align="right">Geburtsdatum</td>
+								<td><input type="date" id="register-geburtsdatum"></td>
+							</tr>
+
+							<tr>
+								<td align="right">Landcode</td>
+								<td>
+									<select id="register-landcode">
+										<option>DE</option>
+									</select>
+								</td>
+							</tr>
+
+							<tr>
+								<td align="right">PLZ</td>
+								<td><input id="register-plz"></td>
+							</tr>
+
+							<tr>
+								<td align="right">Ort</td>
+								<td>
+									<input id="register-ort" list="register-ort-datalist" oninput="fillOrte('register');" value="">
+									<datalist id="register-ort-datalist">
+									</datalist>
+								</td>
+							</tr>
+
+							<tr>
+								<td align="right">Geschlecht</td>
+								<td>
+									<select id="register-geschlecht">
+										<option selected>männlich</option>
+										<option>weiblich</option>
+									</select>
+								</td>
+							</tr>
+
+							<tr>
+								<td align="right">Partnergeschlecht</td>
+								<td>
+									<select id="register-partnergeschlecht">
+										<option>männlich</option>
+										<option selected>weiblich</option>
+									</select>
+								</td>
+							</tr>
+
+							<tr>
+								<td align="right"></td>
+								<td><button onclick="register();">Registrieren</button></td>
+							</tr>
+
+							<tr>
+								<td align="right">Sie haben bereits einen Account?</td>
+								<td><button onclick="setUpLoginPage();">Hier anmelden</button></td>
+							</tr>
+
+						</table>
+					</div>
+				</div>
+
+				<div id="main">
+				</div>
+
+				<div id="profile">
+					<div class="tabcontrol">
+						<button class="tab" onclick="setUpProfileAllgemeineDaten();">Allgemeine Daten</button>
+						<button class="tab" onclick="setUpProfileInteressen();">Interessen</button>
+						<button class="tab" onclick="setUpProfileCharaktere();">Charakter</button>
+						<div id="profile-tabcontrol-extra"></div>
+					</div>
+
+					<div id="profile-workspace">
+						<div id="profile-image-cell">
+						</div>
+
+						<div id="profile-allgemeinedaten">
+							<div id="profile-allgemeinedaten-table-container">
+								<table id="profile-allgemeinedaten-table">
+									<tr>
+										<td></td>
+										<td id="profile-allgemeinedaten-nutzername-cell">Nutzername</td>
+									</tr>
+
+									<tr>
+										<td align="right">Vorname</td>
+										<td id="profile-allgemeinedaten-vorname-cell">Vorname</td>
+									</tr>
+
+									<tr>
+										<td align="right">Geburtsdatum</td>
+										<td id="profile-allgemeinedaten-geburtsdatum-cell">Geburtsdatum</td>
+									</tr>
+
+									<tr>
+										<td align="right">Landcode</td>
+										<td id="profile-allgemeinedaten-landcode-cell"></td>
+									</tr>
+			
+									<tr>
+										<td align="right">PLZ</td>
+										<td id="profile-allgemeinedaten-plz-cell"></td>
+									</tr>
+			
+									<tr>
+										<td align="right">Ort</td>
+										<td id="profile-allgemeinedaten-ort-cell"></td>
+									</tr>
+
+									<tr>
+										<td align="right">Suchumkreis</td>
+										<td id="profile-allgemeinedaten-suchumkreis-cell">Suchumkreis</td>
+									</tr>
+
+									<tr>
+										<td align="right">Geschlecht</td>
+										<td id="profile-allgemeinedaten-geschlecht-cell">Geschlecht</td>
+									</tr>
+
+									<tr>
+										<td align="right">Partnergeschlecht</td>
+										<td id="profile-allgemeinedaten-partnergeschlecht-cell">Partnergeschlecht</td>
+									</tr>
+
+									<tr>
+										<td align="right">Größe</td>
+										<td id="profile-allgemeinedaten-groesse-cell">Größe</td>
+									</tr>
+
+									<tr>
+										<td align="right">Gewicht</td>
+										<td id="profile-allgemeinedaten-gewicht-cell">Gewicht</td>
+									</tr>
+
+									<tr>
+										<td align="right">Körperbau</td>
+										<td id="profile-allgemeinedaten-koerperbau-cell">Körperbau</td>
+									</tr>
+
+									<tr>
+										<td align="right">Haarfarbe</td>
+										<td id="profile-allgemeinedaten-haarfarbe-cell">Haarfarbe</td>
+									</tr>
+
+									<tr>
+										<td align="right">Augenfarbe</td>
+										<td id="profile-allgemeinedaten-augenfarbe-cell">Augenfarbe</td>
+									</tr>
+
+									<tr>
+										<td align="right">Gesichtszug</td>
+										<td id="profile-allgemeinedaten-gesichtszug-cell">Gesichtszug</td>
+									</tr>
+								</table>
+							</div>
+
+							<div id="profile-allgemeinedaten-buttonbox">
+								<button onclick="showMainPage();">Zur Hauptseite</button>
+								
+								<div id="profile-allgemeinedaten-extrabuttons">
+								</div>
+							</div>
+						</div>
+
+						<div id="profile-interessen">
+							
+							<div id="profile-interessen-table-container">
+								<table id="profile-interessen-table">
+								</table>
+							</div>
+
+							<div id="profile-interessen-buttonbox">
+								<button onclick="showMainPage();">Zur Hauptseite</button>
+
+								<div id="profile-interessen-extrabuttons">
+								</div>
+							</div>
+
+						</div>
+
+						<div id="profile-charaktere">
+							
+							<div id="profile-charaktere-table-container">
+								<table id="profile-charaktere-table"></table>
+							</div>
+
+							<div id="profile-charaktere-buttonbox">
+								<button onclick="showMainPage();">Zur Hauptseite</button>
+
+								<div id="profile-charaktere-extrabuttons">
+								</div>
+							</div>
+
+						</div>
+
+						<div id="profile-chat">
+							<table>
+								<tbody id="profile-chat-table-body">
+								</tbody>
+							</table>
+							
+							<input id="profile-chat-message">
+							<button id="profile-chat-send">Senden</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			if (window.localStorage.getItem('DatingApp-nutzername') != null && window.localStorage.getItem('DatingApp-accessToken') != null) {
+				setUpMainPage();
+			}
+		</script>
+	</body>
+
+</html>

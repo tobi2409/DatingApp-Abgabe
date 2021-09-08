@@ -1,0 +1,211 @@
+body {
+    margin: 0;
+    padding: 0
+}
+
+* {
+    font: Arial, Verdana, 'sans-serif' !important;/* <-- fonts */
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    /*background-color: #f2e6d3*/
+    background-color: #f2e6d3
+}
+
+#header {
+    flex: 0.1;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    background-color: #a46b14
+}
+
+#header-profile {
+    flex: 1;
+    display: flex
+}
+
+#header-profile-logout {
+    flex: 0.1;
+    padding: 10px;
+    cursor: pointer
+}
+
+#header-profile-logout-img {
+    width: 64;
+    height: 64px
+}
+
+#header-profile-inner {
+    flex: 0.9;
+    display: flex;
+    align-items: center
+}
+
+#header-profile-inner-img {
+    max-width: 100px;
+    max-height: 80px;
+    margin-right: 20px;
+    cursor: pointer
+}
+
+/* Child-Elemente von Flexbox sind display: block (default-Value) und nicht display: flex */
+
+#workspace {
+    flex: 0.9;
+    display: flex;
+    overflow: hidden
+}
+
+#login {
+    /*position: absolute;*/
+    flex: 1;
+    display: flex;
+    overflow: auto
+}
+
+/* display: none reserviert auch den Platz nicht mehr für das Element */
+
+#register {
+    flex: 1;
+    display: none;
+    overflow: auto
+}
+
+/* Um innerhalb einer Page die Elemente zu zentrieren */
+
+.centered {
+    margin: auto
+}
+
+#main {
+    /*position: absolute;*/
+    flex: 1;
+    display: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: auto
+}
+
+#profile {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden
+}
+
+#profile-tabcontrol-extra {
+    display: flex;
+    flex-direction: row
+}
+
+/* Damit ScrollBar rechts-außen platziert wird */
+#profile-workspace {
+    flex: 0.9;
+    display: flex;
+    overflow: hidden
+}
+
+#profile-allgemeinedaten {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden
+}
+
+#profile-allgemeinedaten-table-container {
+    flex: 0.9;
+    overflow: auto
+}
+
+#profile-allgemeinedaten-buttonbox {
+    display: flex;
+    text-align: right;
+    padding-top: 20px;
+    padding-right: 20px
+}
+
+#profile-nutzername-field {
+    font-weight: bold
+}
+
+#profile-interessen, #profile-charaktere, #profile-chat {
+    flex: 0.5;
+    display: none;
+    flex-direction: column;
+    overflow: hidden
+}
+
+#profile-interessen-table-container, #profile-charaktere-table-container {
+    overflow: auto
+}
+
+#profile-interessen-buttonbox, #profile-charaktere-buttonbox {
+    display: flex;
+    padding-top: 20px;
+    padding-right: 20px
+}
+
+#profile-image-cell {
+    flex: 0.5
+}
+
+#profile-image-field {
+    max-width: 80%;
+    max-height: 80%;
+    min-width: 100px;
+    min-height: 100px;
+    margin-top: 20px;
+    margin-left: 20px;
+    cursor: pointer
+}
+
+.potential-match-entry {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 30%;
+    max-height: 30%;
+    padding: 20px;
+    cursor: pointer
+}
+
+.potential-match-img {
+    max-width: 200px;
+    max-height: 200px;
+    margin-right: 20px
+}
+
+.potential-match-entry-noimg {
+    width: 200px;
+    height: 200px
+}
+
+td {
+    padding: 10px
+}
+
+input, select, button {
+    padding: 10px;
+    border: 1px black solid;
+    cursor: pointer
+}
+
+button {
+    background-color: #a46b14;
+    color: yellow
+}
+
+.tabcontrol {
+    flex: 0.1;
+    display: flex;
+    flex-direction: row;
+    background-color: #cc8b27
+}

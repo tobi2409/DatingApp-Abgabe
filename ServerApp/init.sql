@@ -1,0 +1,108 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE IF NOT EXISTS Koerperbaus(
+	ID SERIAL NOT NULL,
+	Bezeichnung VARCHAR(255) UNIQUE NOT NULL,
+	PRIMARY KEY(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Haarfarben(
+	ID SERIAL NOT NULL,
+	Bezeichnung VARCHAR(255) UNIQUE NOT NULL,
+	PRIMARY KEY(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Augenfarben(
+	ID SERIAL NOT NULL,
+	Bezeichnung VARCHAR(255) UNIQUE NOT NULL,
+	PRIMARY KEY(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Gesichtszuege(
+	ID SERIAL NOT NULL,
+	Bezeichnung VARCHAR(255) UNIQUE NOT NULL,
+	PRIMARY KEY(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Geschlechter(
+	ID SERIAL NOT NULL,
+	Bezeichnung VARCHAR(255) UNIQUE NOT NULL,
+	PRIMARY KEY(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Interessen(
+	ID SERIAL NOT NULL,
+	Bezeichnung VARCHAR(255) UNIQUE NOT NULL,
+	PRIMARY KEY(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Charaktere(
+	ID SERIAL NOT NULL,
+	Bezeichnung VARCHAR(255) UNIQUE NOT NULL,
+	PRIMARY KEY(ID)
+);
+
+/*
+
+	Tabelle für gelesene Mongo-Daten, weil Kommunikation zwischen MySql und Mongo umständlich ist
+
+*/
+
+CREATE TABLE IF NOT EXISTS Mongo_Orte(
+	Mongo_Ort_ID SERIAL NOT NULL,
+	LandCode VARCHAR(255) NOT NULL,
+	PLZ VARCHAR(255) NOT NULL,
+	Longitude DECIMAL(7, 2) NOT NULL,
+	Latitude DECIMAL(7, 2) NOT NULL,
+	Name VARCHAR(255) NOT NULL,
+	UNIQUE(LandCode, PLZ, Name),
+	PRIMARY KEY(Mongo_Ort_ID)
+);
+
+CREATE TABLE IF NOT EXISTS Profile(
+	ID SERIAL NOT NULL,
+	UUID UUID DEFAULT uuid_generate_v4(),
+	Nutzername VARCHAR(255) UNIQUE NOT NULL,
+	Passwort VARCHAR(255) NOT NULL,
+	Bild bytea,
+	Vorname VARCHAR(255) NOT NULL,
+	Geburtsdatum DATE NOT NULL,
+	Groesse INT,
+	Gewicht INT,
+	Koerperbau_ID INT,
+	Haarfarbe_ID INT,
+	Augenfarbe_ID INT,
+	Gesichtszug_ID INT,
+	Ort_ID INT NOT NULL,	/* Ort_ID = ID von Mongo-Collection */
+	Suchumkreis INT NOT NULL,
+	Geschlecht_ID INT NOT NULL,
+	Partnergeschlecht_ID INT NOT NULL,
+	PRIMARY KEY(ID),
+	FOREIGN KEY(Koerperbau_ID) REFERENCES Koerperbaus(ID),
+	FOREIGN KEY(Haarfarbe_ID) REFERENCES Haarfarben(ID),
+	FOREIGN KEY(Augenfarbe_ID) REFERENCES Augenfarben(ID),
+	FOREIGN KEY(Gesichtszug_ID) REFERENCES Gesichtszuege(ID),
+	FOREIGN KEY(Geschlecht_ID) REFERENCES Geschlechter(ID),
+	FOREIGN KEY(Partnergeschlecht_ID) REFERENCES Geschlechter(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Profil_Interessen(
+	Profil_ID INT NOT NULL,
+	Interesse_ID INT NOT NULL,
+	Wichtung INT NOT NULL,
+	PRIMARY KEY(Profil_ID, Interesse_ID),
+	FOREIGN KEY(Profil_ID) REFERENCES Profile(ID),
+	FOREIGN KEY(Interesse_ID) REFERENCES Interessen(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Profil_Charaktere(
+	Profil_ID INT NOT NULL,
+	Charakter_ID INT NOT NULL,
+	Wichtung INT NOT NULL,
+	PRIMARY KEY(Profil_ID, Charakter_ID),
+	FOREIGN KEY(Profil_ID) REFERENCES Profile(ID),
+	FOREIGN KEY(Charakter_ID) REFERENCES Charaktere(ID)
+);
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO tobias;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO tobias;
